@@ -257,11 +257,22 @@ let permissionList = [
   },
 ];
 
+let headersList = [
+  "List","Create","Edit","Show","Delete","Export" , "Import"
+]
+
 export default function Home() {
   const [checkAll,setCheckAll] = useState(null);
   useEffect(() => {
-    
+    checkAll
   })
+
+// function CheckAll which change all values to true
+// function CheckRow which change all values of same col to true
+// function CheckTrue which checks all values if was true change to checkAll and the header of the column to null 
+
+
+
 
 
 const onCheckAll = () => {
@@ -269,7 +280,6 @@ const onCheckAll = () => {
   permissionList.forEach(permission => {
     permission.permission_group.forEach(permissionGroup => {
       permissionGroup.value = checkAll;
-      console.log(permissionGroup);
     });
   });
 }
@@ -279,30 +289,23 @@ const onCheckAll = () => {
     <table>
     <thead>
       <tr>
-        <th>
-          <input type="checkbox" /> Check All
-        </th>
-        <th>
-          <input type="checkbox" /> List
-        </th>
-        <th>
-          <input type="checkbox" /> Create
-        </th>
-        <th>
-          <input type="checkbox" /> Edit
-        </th>
-        <th>
-          <input type="checkbox" /> Show
-        </th>
-        <th>
-          <input type="checkbox" /> Delete
-        </th>
-        <th>
-          <input type="checkbox" /> Export
-        </th>
-        <th>
-          <input type="checkbox" /> Import
-        </th>
+      <th>
+        
+        <input  type="checkbox" 
+                // onChange={onCheckAll}
+        />Check All
+      </th>
+
+        {headersList.map((header) => {
+        return (  
+          <th key={header.id}>
+            <input type="checkbox" defaultChecked={true} /> {header}
+          </th>
+        )})
+
+        }
+
+
       </tr>
     </thead>
     <tbody>
@@ -310,13 +313,13 @@ const onCheckAll = () => {
         return (
           <tr key={item.id}>
             <td>
-              <input type="checkbox" /> {item.name}
+              <input type="checkbox" defaultChecked={true} /> {item.name}
             </td>
             <td className="permissions">
               {item.permission_group.map((permission) => {
                 return (
                   <div className="checkedBoxes" key={permission.id}>
-                    <input type="checkbox" checked={permission.value} />
+                    <input type="checkbox"  defaultChecked={true} checked={permission.value} />
                   </div>
                 );
               })}
