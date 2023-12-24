@@ -1,4 +1,5 @@
 import './App.css'
+import { useState ,useEffect} from 'react';
 
 
 let permissionList = [
@@ -257,61 +258,73 @@ let permissionList = [
 ];
 
 export default function Home() {
+  const [checkAll,setCheckAll] = useState(null);
+  useEffect(() => {
+    
+  })
 
-  
+
+const onCheckAll = () => {
+  setCheckAll(true);
+  permissionList.forEach(permission => {
+    permission.permission_group.forEach(permissionGroup => {
+      permissionGroup.value = checkAll;
+      console.log(permissionGroup);
+    });
+  });
+}
+
+
   return (
     <table>
-      <thead>
-        <tr>
-          <th>
-            <input type="checkbox" /> Check All{" "}
-          </th>
-          <th>
-            <input type="checkbox" /> List{" "}
-          </th>
-          <th>
-            {" "}
-            <input type="checkbox" /> Create{" "}
-          </th>
-          <th>
-            <input type="checkbox" /> Edit{" "}
-          </th>
-          <th>
-            <input type="checkbox" /> Show
-          </th>
-          <th>
-            <input type="checkbox" /> Delete
-          </th>
-          <th>
-            <input type="checkbox" /> Export
-          </th>
-          <th>
-            <input type="checkbox" /> Import
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {permissionList.map((item) => {
-          return (
-            <tr
-              key={item.id}
-            >
-              <td>
-                <input type="checkbox" /> {item.name}
-              </td>
-              <td className="permissions">
+    <thead>
+      <tr>
+        <th>
+          <input type="checkbox" /> Check All
+        </th>
+        <th>
+          <input type="checkbox" /> List
+        </th>
+        <th>
+          <input type="checkbox" /> Create
+        </th>
+        <th>
+          <input type="checkbox" /> Edit
+        </th>
+        <th>
+          <input type="checkbox" /> Show
+        </th>
+        <th>
+          <input type="checkbox" /> Delete
+        </th>
+        <th>
+          <input type="checkbox" /> Export
+        </th>
+        <th>
+          <input type="checkbox" /> Import
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {permissionList.map((item) => {
+        return (
+          <tr key={item.id}>
+            <td>
+              <input type="checkbox" /> {item.name}
+            </td>
+            <td className="permissions">
               {item.permission_group.map((permission) => {
-                  return (
-                    <td className="checkedBoxes"  key={permission.id}>
-                      <input type="checkbox" checked={permission.value}/>
-                    </td>
-                  );
-                })}
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+                return (
+                  <div className="checkedBoxes" key={permission.id}>
+                    <input type="checkbox" checked={permission.value} />
+                  </div>
+                );
+              })}
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
   );
 }
