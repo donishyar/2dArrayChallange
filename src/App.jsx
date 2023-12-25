@@ -1,11 +1,10 @@
-import './App.css'
-import { useState ,useEffect} from 'react';
-
+import "./App.css";
+import { useState, useEffect } from "react";
 
 let permissionList = [
   {
     id: 0,
-    value: false,
+    value: true,
     name: "Dashboard",
     permission_group: [
       {
@@ -89,7 +88,7 @@ let permissionList = [
   },
   {
     id: 2,
-    value: false,
+    value: true,
     name: "Role",
     permission_group: [
       {
@@ -173,7 +172,7 @@ let permissionList = [
   },
   {
     id: 4,
-    value: false,
+    value: true,
     name: "Invoice",
     permission_group: [
       {
@@ -258,76 +257,155 @@ let permissionList = [
 ];
 
 let headersList = [
-  "List","Create","Edit","Show","Delete","Export" , "Import"
-]
+  {
+    name: "List",
+    value : true
+  },
+  {
+    name: "Create",
+    value : false
+  },
+  {
+    name: "Edit",
+    value : true
+  },
+  {
+    name: "Show",
+    value : false
+  },
+  {
+    name: "Delete",
+    value : true
+  },
+  {
+    name: "Export",
+    value : false
+  },
+  {
+    name: "Import",
+    value : true
+  }
+];
 
 export default function Home() {
-  const [checkAll,setCheckAll] = useState(null);
-  useEffect(() => {
-    checkAll
-  })
+  const [MultiCheck, setMultiCheck] = useState(null);
+  const [isChecked, setIsChecked] = useState(false);
 
-// function CheckAll which change all values to true
-// function CheckRow which change all values of same col to true
-// function CheckTrue which checks all values if was true change to checkAll and the header of the column to null 
-
-
+   const singleCheckFunc = (index) => {
+      console.log("clicked : "+ index)
+   }
+     
+  
 
 
 
-const onCheckAll = () => {
-  setCheckAll(true);
-  permissionList.forEach(permission => {
-    permission.permission_group.forEach(permissionGroup => {
-      permissionGroup.value = checkAll;
+
+  const functionMultiCheck = () => {
+    setMultiCheck(true);
+    permissionList.forEach((permission) => {
+      permission.value = true;
+      permission.permission_group.forEach((permissionGroup) => {
+        permissionGroup.value = true;
+        console.log(permissionGroup.value);
+      });
     });
-  });
-}
 
+    headersList.forEach((header_permission) => {
+      header_permission.value = true;
+    })
+  };
+
+
+
+
+  const functionUnMultiCheck = () => {
+    setMultiCheck(false);
+    permissionList.forEach((permission) => {
+      permission.value = false;
+      permission.permission_group.forEach((permissionGroup) => {
+        permissionGroup.value = false 
+        console.log(permissionGroup.value);
+      });
+    });
+    headersList.forEach((header_permission) => {
+      header_permission.value = false;
+      console.log("header "+header_permission.value)
+    })
+  };
+
+
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+    if (event.target.checked) {
+      functionMultiCheck();
+    } else {
+      functionUnMultiCheck();
+    }
+  };
+
+  
+
+
+
+  useEffect(() => {
+    permissionList;
+    headersList;
+    MultiCheck;
+  });
+
+  // function MultiCheck which change all values to true
+  // function CheckRow which change all values of same col to true
+  // function CheckTrue which checks all values if was true change to MultiCheck and the header of the column to null
 
   return (
     <table>
-    <thead>
-      <tr>
-      <th>
-        
-        <input  type="checkbox" 
-                // onChange={onCheckAll}
-        />Check All
-      </th>
-
-        {headersList.map((header) => {
-        return (  
-          <th key={header.id}>
-            <input type="checkbox" defaultChecked={true} /> {header}
+      <thead>
+        <tr>
+          <th>
+            <input
+              type="checkbox"
+              onChange={handleCheckboxChange}
+              checked={isChecked}
+            />
+            Check All
           </th>
-        )})
 
-        }
-
-
-      </tr>
-    </thead>
-    <tbody>
-      {permissionList.map((item) => {
-        return (
-          <tr key={item.id}>
-            <td>
-              <input type="checkbox" defaultChecked={true} /> {item.name}
-            </td>
-            <td className="permissions">
-              {item.permission_group.map((permission) => {
-                return (
-                  <div className="checkedBoxes" key={permission.id}>
-                    <input type="checkbox"  defaultChecked={true} checked={permission.value} />
-                  </div>
-                );
-              })}
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  </table>
+          {headersList.map((header) => {
+            return (
+              <th key={header.id}>
+                <input type="checkbox" defaultChecked={false} checked={header.value} /> {header.name}
+              </th>
+            );
+          })}
+        </tr>
+      </thead>
+      <tbody>
+        {permissionList.map((item) => {
+          return (
+            <tr key={item.id}>
+              <td>
+                <input type="checkbox"  defaultChecked={false} checked={item.value}/> {item.name}
+              </td>
+              <td className="permissions">
+                {item.permission_group.map((permission) => {
+                  return (
+                    <div className="checkedBoxes" key={permission.id}>
+                      <input
+                        type="checkbox"
+                        defaultChecked={false}
+                        checked={permission.value}
+                        onChange={() => {singleCheckFunc(permission.id)}}
+                        
+                      />
+                    </div>
+                  );
+                })}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
   );
 }
