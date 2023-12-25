@@ -1,260 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 
-let permissionList = [
-  {
-    id: 0,
-    value: true,
-    name: "Dashboard",
-    permission_group: [
-      {
-        id: 0,
-        name: "list",
-        value: false,
-      },
-      {
-        id: 1,
-        name: "create",
-        value: false,
-      },
-      {
-        id: 2,
-        name: "edit",
-        value: false,
-      },
-      {
-        id: 3,
-        name: "show",
-        value: false,
-      },
-      {
-        id: 4,
-        name: "delete",
-        value: false,
-      },
-      {
-        id: 5,
-        name: "export",
-        value: false,
-      },
-      {
-        id: 6,
-        name: "import",
-        value: false,
-      },
-    ],
-  },
-  {
-    id: 1,
-    value: false,
-    name: "Storage",
-    permission_group: [
-      {
-        id: 0,
-        name: "list",
-        value: false,
-      },
-      {
-        id: 1,
-        name: "create",
-        value: false,
-      },
-      {
-        id: 2,
-        name: "edit",
-        value: false,
-      },
-      {
-        id: 3,
-        name: "show",
-        value: false,
-      },
-      {
-        id: 4,
-        name: "delete",
-        value: false,
-      },
-      {
-        id: 5,
-        name: "export",
-        value: false,
-      },
-      {
-        id: 6,
-        name: "import",
-        value: false,
-      },
-    ],
-  },
-  {
-    id: 2,
-    value: true,
-    name: "Role",
-    permission_group: [
-      {
-        id: 0,
-        name: "list",
-        value: false,
-      },
-      {
-        id: 1,
-        name: "create",
-        value: false,
-      },
-      {
-        id: 2,
-        name: "edit",
-        value: false,
-      },
-      {
-        id: 3,
-        name: "show",
-        value: false,
-      },
-      {
-        id: 4,
-        name: "delete",
-        value: false,
-      },
-      {
-        id: 5,
-        name: "export",
-        value: false,
-      },
-      {
-        id: 6,
-        name: "import",
-        value: false,
-      },
-    ],
-  },
-  {
-    id: 3,
-    value: false,
-    name: "Stock out",
-    permission_group: [
-      {
-        id: 0,
-        name: "list",
-        value: false,
-      },
-      {
-        id: 1,
-        name: "create",
-        value: true,
-      },
-      {
-        id: 2,
-        name: "edit",
-        value: false,
-      },
-      {
-        id: 3,
-        name: "show",
-        value: false,
-      },
-      {
-        id: 4,
-        name: "delete",
-        value: false,
-      },
-      {
-        id: 5,
-        name: "export",
-        value: false,
-      },
-      {
-        id: 6,
-        name: "import",
-        value: false,
-      },
-    ],
-  },
-  {
-    id: 4,
-    value: true,
-    name: "Invoice",
-    permission_group: [
-      {
-        id: 0,
-        name: "list",
-        value: false,
-      },
-      {
-        id: 1,
-        name: "create",
-        value: false,
-      },
-      {
-        id: 2,
-        name: "edit",
-        value: true,
-      },
-      {
-        id: 3,
-        name: "show",
-        value: false,
-      },
-      {
-        id: 4,
-        name: "delete",
-        value: true,
-      },
-      {
-        id: 5,
-        name: "export",
-        value: false,
-      },
-      {
-        id: 6,
-        name: "import",
-        value: false,
-      },
-    ],
-  },
-  {
-    id: 5,
-    value: false,
-    name: "User",
-    permission_group: [
-      {
-        id: 0,
-        name: "list",
-        value: true,
-      },
-      {
-        id: 1,
-        name: "create",
-        value: false,
-      },
-      {
-        id: 2,
-        name: "edit",
-        value: false,
-      },
-      {
-        id: 3,
-        name: "show",
-        value: true,
-      },
-      {
-        id: 4,
-        name: "delete",
-        value: false,
-      },
-      {
-        id: 5,
-        name: "export",
-        value: true,
-      },
-      {
-        id: 6,
-        name: "import",
-        value: false,
-      },
-    ],
-  },
-];
+
 
 let headersList = [
   {
@@ -290,14 +37,284 @@ let headersList = [
 export default function Home() {
   const [MultiCheck, setMultiCheck] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
+  const [permissionList, setPermissionList] = useState ([
+    {
+      id: 0,
+      value: true,
+      name: "Dashboard",
+      permission_group: [
+        {
+          id: 0,
+          name: "list",
+          value: false,
+        },
+        {
+          id: 1,
+          name: "create",
+          value: false,
+        },
+        {
+          id: 2,
+          name: "edit",
+          value: false,
+        },
+        {
+          id: 3,
+          name: "show",
+          value: false,
+        },
+        {
+          id: 4,
+          name: "delete",
+          value: false,
+        },
+        {
+          id: 5,
+          name: "export",
+          value: false,
+        },
+        {
+          id: 6,
+          name: "import",
+          value: false,
+        },
+      ],
+    },
+    {
+      id: 1,
+      value: false,
+      name: "Storage",
+      permission_group: [
+        {
+          id: 0,
+          name: "list",
+          value: false,
+        },
+        {
+          id: 1,
+          name: "create",
+          value: false,
+        },
+        {
+          id: 2,
+          name: "edit",
+          value: false,
+        },
+        {
+          id: 3,
+          name: "show",
+          value: false,
+        },
+        {
+          id: 4,
+          name: "delete",
+          value: false,
+        },
+        {
+          id: 5,
+          name: "export",
+          value: false,
+        },
+        {
+          id: 6,
+          name: "import",
+          value: false,
+        },
+      ],
+    },
+    {
+      id: 2,
+      value: true,
+      name: "Role",
+      permission_group: [
+        {
+          id: 0,
+          name: "list",
+          value: false,
+        },
+        {
+          id: 1,
+          name: "create",
+          value: false,
+        },
+        {
+          id: 2,
+          name: "edit",
+          value: false,
+        },
+        {
+          id: 3,
+          name: "show",
+          value: false,
+        },
+        {
+          id: 4,
+          name: "delete",
+          value: false,
+        },
+        {
+          id: 5,
+          name: "export",
+          value: false,
+        },
+        {
+          id: 6,
+          name: "import",
+          value: false,
+        },
+      ],
+    },
+    {
+      id: 3,
+      value: false,
+      name: "Stock out",
+      permission_group: [
+        {
+          id: 0,
+          name: "list",
+          value: false,
+        },
+        {
+          id: 1,
+          name: "create",
+          value: true,
+        },
+        {
+          id: 2,
+          name: "edit",
+          value: false,
+        },
+        {
+          id: 3,
+          name: "show",
+          value: false,
+        },
+        {
+          id: 4,
+          name: "delete",
+          value: false,
+        },
+        {
+          id: 5,
+          name: "export",
+          value: false,
+        },
+        {
+          id: 6,
+          name: "import",
+          value: false,
+        },
+      ],
+    },
+    {
+      id: 4,
+      value: true,
+      name: "Invoice",
+      permission_group: [
+        {
+          id: 0,
+          name: "list",
+          value: false,
+        },
+        {
+          id: 1,
+          name: "create",
+          value: false,
+        },
+        {
+          id: 2,
+          name: "edit",
+          value: true,
+        },
+        {
+          id: 3,
+          name: "show",
+          value: false,
+        },
+        {
+          id: 4,
+          name: "delete",
+          value: true,
+        },
+        {
+          id: 5,
+          name: "export",
+          value: false,
+        },
+        {
+          id: 6,
+          name: "import",
+          value: false,
+        },
+      ],
+    },
+    {
+      id: 5,
+      value: false,
+      name: "User",
+      permission_group: [
+        {
+          id: 0,
+          name: "list",
+          value: true,
+        },
+        {
+          id: 1,
+          name: "create",
+          value: false,
+        },
+        {
+          id: 2,
+          name: "edit",
+          value: false,
+        },
+        {
+          id: 3,
+          name: "show",
+          value: true,
+        },
+        {
+          id: 4,
+          name: "delete",
+          value: false,
+        },
+        {
+          id: 5,
+          name: "export",
+          value: true,
+        },
+        {
+          id: 6,
+          name: "import",
+          value: false,
+        },
+      ],
+    },
+  ]);
 
-   const singleCheckFunc = (index) => {
-      console.log("clicked : "+ index)
-   }
-     
-  
-
-
+  const handleCheckBoxChange = (selfIndex, parentIndex) => {
+    const updatedPermissionList = permissionList.map((permission) => {
+      if (permission.id === parentIndex) {
+        const updatedPermissionGroup = permission.permission_group.map(
+          (item) => {
+            if (item.id === selfIndex) {
+              return {
+                ...item,
+                value: !item.value,
+              };
+            }
+            return item;
+          }
+        );
+        return {
+          ...permission,
+          permission_group: updatedPermissionGroup,
+        };
+      }
+      return permission;
+    });
+    setPermissionList(updatedPermissionList);
+  };
 
 
   const functionMultiCheck = () => {
@@ -395,7 +412,7 @@ export default function Home() {
                         type="checkbox"
                         defaultChecked={false}
                         checked={permission.value}
-                        onChange={() => {singleCheckFunc(permission.id)}}
+                        onChange={() => {handleCheckBoxChange(permission.id, item.id)}}
                         
                       />
                     </div>
