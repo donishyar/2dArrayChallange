@@ -89,3 +89,12 @@ tbody tr td {
   width: 80px;
   display: flex;
 }
+
+
+.header {
+  background-color: brown;
+}
+
+.main__header {
+  background-color: darkviolet;
+}

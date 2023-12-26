@@ -1,296 +1,17 @@
 import "./App.css";
 import { useState, useEffect } from "react";
+import {headersList,permissionArray} from "./utils"
 
 
-
-let headersList = [
-  {
-    name: "List",
-    value : true
-  },
-  {
-    name: "Create",
-    value : false
-  },
-  {
-    name: "Edit",
-    value : true
-  },
-  {
-    name: "Show",
-    value : false
-  },
-  {
-    name: "Delete",
-    value : true
-  },
-  {
-    name: "Export",
-    value : false
-  },
-  {
-    name: "Import",
-    value : true
-  }
-];
 
 export default function Home() {
-  const [MultiCheck, setMultiCheck] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
-  const [permissionList, setPermissionList] = useState ([
-    {
-      id: 0,
-      value: true,
-      name: "Dashboard",
-      permission_group: [
-        {
-          id: 0,
-          name: "list",
-          value: false,
-        },
-        {
-          id: 1,
-          name: "create",
-          value: false,
-        },
-        {
-          id: 2,
-          name: "edit",
-          value: false,
-        },
-        {
-          id: 3,
-          name: "show",
-          value: false,
-        },
-        {
-          id: 4,
-          name: "delete",
-          value: false,
-        },
-        {
-          id: 5,
-          name: "export",
-          value: false,
-        },
-        {
-          id: 6,
-          name: "import",
-          value: false,
-        },
-      ],
-    },
-    {
-      id: 1,
-      value: false,
-      name: "Storage",
-      permission_group: [
-        {
-          id: 0,
-          name: "list",
-          value: false,
-        },
-        {
-          id: 1,
-          name: "create",
-          value: false,
-        },
-        {
-          id: 2,
-          name: "edit",
-          value: false,
-        },
-        {
-          id: 3,
-          name: "show",
-          value: false,
-        },
-        {
-          id: 4,
-          name: "delete",
-          value: false,
-        },
-        {
-          id: 5,
-          name: "export",
-          value: false,
-        },
-        {
-          id: 6,
-          name: "import",
-          value: false,
-        },
-      ],
-    },
-    {
-      id: 2,
-      value: true,
-      name: "Role",
-      permission_group: [
-        {
-          id: 0,
-          name: "list",
-          value: false,
-        },
-        {
-          id: 1,
-          name: "create",
-          value: false,
-        },
-        {
-          id: 2,
-          name: "edit",
-          value: false,
-        },
-        {
-          id: 3,
-          name: "show",
-          value: false,
-        },
-        {
-          id: 4,
-          name: "delete",
-          value: false,
-        },
-        {
-          id: 5,
-          name: "export",
-          value: false,
-        },
-        {
-          id: 6,
-          name: "import",
-          value: false,
-        },
-      ],
-    },
-    {
-      id: 3,
-      value: false,
-      name: "Stock out",
-      permission_group: [
-        {
-          id: 0,
-          name: "list",
-          value: false,
-        },
-        {
-          id: 1,
-          name: "create",
-          value: true,
-        },
-        {
-          id: 2,
-          name: "edit",
-          value: false,
-        },
-        {
-          id: 3,
-          name: "show",
-          value: false,
-        },
-        {
-          id: 4,
-          name: "delete",
-          value: false,
-        },
-        {
-          id: 5,
-          name: "export",
-          value: false,
-        },
-        {
-          id: 6,
-          name: "import",
-          value: false,
-        },
-      ],
-    },
-    {
-      id: 4,
-      value: true,
-      name: "Invoice",
-      permission_group: [
-        {
-          id: 0,
-          name: "list",
-          value: false,
-        },
-        {
-          id: 1,
-          name: "create",
-          value: false,
-        },
-        {
-          id: 2,
-          name: "edit",
-          value: true,
-        },
-        {
-          id: 3,
-          name: "show",
-          value: false,
-        },
-        {
-          id: 4,
-          name: "delete",
-          value: true,
-        },
-        {
-          id: 5,
-          name: "export",
-          value: false,
-        },
-        {
-          id: 6,
-          name: "import",
-          value: false,
-        },
-      ],
-    },
-    {
-      id: 5,
-      value: false,
-      name: "User",
-      permission_group: [
-        {
-          id: 0,
-          name: "list",
-          value: true,
-        },
-        {
-          id: 1,
-          name: "create",
-          value: false,
-        },
-        {
-          id: 2,
-          name: "edit",
-          value: false,
-        },
-        {
-          id: 3,
-          name: "show",
-          value: true,
-        },
-        {
-          id: 4,
-          name: "delete",
-          value: false,
-        },
-        {
-          id: 5,
-          name: "export",
-          value: true,
-        },
-        {
-          id: 6,
-          name: "import",
-          value: false,
-        },
-      ],
-    },
-  ]);
+  const [permissionList, setPermissionList] = useState(permissionArray);
+  const [headerCheck, setHeaderCheck] = useState(permissionArray);
+
+
+
+  // for single checkboxes
 
   const handleCheckBoxChange = (selfIndex, parentIndex) => {
     const updatedPermissionList = permissionList.map((permission) => {
@@ -317,8 +38,10 @@ export default function Home() {
   };
 
 
+
+  // for all checkboxes
+
   const functionMultiCheck = () => {
-    setMultiCheck(true);
     permissionList.forEach((permission) => {
       permission.value = true;
       permission.permission_group.forEach((permissionGroup) => {
@@ -329,28 +52,23 @@ export default function Home() {
 
     headersList.forEach((header_permission) => {
       header_permission.value = true;
-    })
+    });
   };
 
-
-
-
   const functionUnMultiCheck = () => {
-    setMultiCheck(false);
+    setIsChecked(false);
     permissionList.forEach((permission) => {
       permission.value = false;
       permission.permission_group.forEach((permissionGroup) => {
-        permissionGroup.value = false 
+        permissionGroup.value = false;
         console.log(permissionGroup.value);
       });
     });
     headersList.forEach((header_permission) => {
       header_permission.value = false;
-      console.log("header "+header_permission.value)
-    })
+      console.log("header " + header_permission.value);
+    });
   };
-
-
 
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
@@ -361,24 +79,42 @@ export default function Home() {
     }
   };
 
-  
+
+
+  // for header checkboxs
+
+const handleCheckHeaderBoxChange = (Index) => {
+  permissionArray.forEach((permission) => {
+    if(permission.id === Index){
+      permission.value = !permission.value
+      setHeaderCheck(permission);
+      if(permission.value){
+        permission.permission_group.forEach((permissionGroup) => {
+          permissionGroup.value = true;
+          console.log(permissionGroup.value);
+        });
+      }else{
+        permission.permission_group.forEach((permissionGroup) => {
+          permissionGroup.value = false;
+          console.log(permissionGroup.value);
+        });
+      }
+    }
+  })
+};
+
 
 
 
   useEffect(() => {
-    permissionList;
-    headersList;
-    MultiCheck;
-  });
+  }, [headerCheck,isChecked, permissionList]);
 
-  // function MultiCheck which change all values to true
-  // function CheckRow which change all values of same col to true
-  // function CheckTrue which checks all values if was true change to MultiCheck and the header of the column to null
+  // function for header
 
   return (
     <table>
       <thead>
-        <tr>
+        <tr className="main__header">
           <th>
             <input
               type="checkbox"
@@ -391,7 +127,14 @@ export default function Home() {
           {headersList.map((header) => {
             return (
               <th key={header.id}>
-                <input type="checkbox" defaultChecked={false} checked={header.value} /> {header.name}
+                <td>
+                  <input
+                    type="checkbox"
+                    defaultChecked={false}
+                    checked={header.value}
+                  />
+                  {header.name}
+                </td>
               </th>
             );
           })}
@@ -400,9 +143,15 @@ export default function Home() {
       <tbody>
         {permissionList.map((item) => {
           return (
-            <tr key={item.id}>
+            <tr key={item.id} className="header">
               <td>
-                <input type="checkbox"  defaultChecked={false} checked={item.value}/> {item.name}
+                <input
+                  type="checkbox"
+                  defaultChecked={false}
+                  checked={item.value}
+                  onChange={()=> {handleCheckHeaderBoxChange(item.id);}}
+                />
+                {item.name}
               </td>
               <td className="permissions">
                 {item.permission_group.map((permission) => {
@@ -412,8 +161,9 @@ export default function Home() {
                         type="checkbox"
                         defaultChecked={false}
                         checked={permission.value}
-                        onChange={() => {handleCheckBoxChange(permission.id, item.id)}}
-                        
+                        onChange={() => {
+                          handleCheckBoxChange(permission.id, item.id);
+                        }}
                       />
                     </div>
                   );
