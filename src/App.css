@@ -71,7 +71,7 @@ tbody tr {
   gap: 1.25rem;
   justify-content: space-between;
   width: 100%;
-  background-color: blueviolet;
+  background-color: chocolate;
 }
 
 tbody tr td {
@@ -93,8 +93,19 @@ tbody tr td {
 
 .header {
   background-color: brown;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
 }
 
 .main__header {
   background-color: darkviolet;
+  display: flex;
+  height: 100px;
+}
+
+.tabHeaderNull{
+  color: chartreuse;
+  padding: 0px 0px 0px 5px;
 }

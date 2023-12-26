@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import {headersList,permissionArray} from "./utils"
+import {headersList,permissionArray,checkAll} from "./utils"
 
 
 
@@ -9,7 +9,11 @@ export default function Home() {
   const [permissionList, setPermissionList] = useState(permissionArray);
   const [headerCheck, setHeaderCheck] = useState(permissionArray);
   const [tableHeader , setTableHeader] = useState(headersList);
+  const [checkAllNull , setAllcheckNull] = useState(false);
 
+  // const [TableHeaderNull , setTableHeadeNull] = useState(headersList);
+  // const [SideHeaderNull , setSideHeadeNull] = useState(permissionArray);
+  
 
 
   // for single checkboxes
@@ -115,19 +119,45 @@ const handleCheckTableHeaderBoxChange = (Index) => {
       
       } 
     })
+    permissionArray.forEach((permission)=> {
+      permission.permission_group.forEach((item)=> {
+        if(item.id == Index ){
+          item.value = !item.value
+        }
+      })
+    })
   };
 
 
   // null checkers 
 
   // null checker for checkAll
+  const FuncCheckNullAll = () => {
+    for (let i = 0; i < permissionArray.length; i++) {
+      if(permissionArray[i].value == true){
+        return true;
+      }else {
+      const category = permissionArray[i];
+      for (let j = 0; j < category.permission_group.length; j++) {
+        const permission = category.permission_group[j];
+        if(permission.value == true){
+          return true;
+        }
+        console.log(`  Permission ${permission.name} - value: ${permission.value}`);
+      }
+    }
+    }
+  };
+  
+
   // null checker for tableHeaders
   // null checker for sideHeaders
 
 
 
   useEffect(() => {
-  }, [headerCheck,isChecked,tableHeader]);
+    
+  }, [headerCheck,isChecked,tableHeader,]);
 
   // function for header
 
@@ -141,7 +171,8 @@ const handleCheckTableHeaderBoxChange = (Index) => {
               onChange={handleCheckboxChange}
               checked={isChecked}
             />
-            Check All
+            {checkAll.name}
+            {checkAllNull ? <p className="tabHeaderNull">null</p>:<p></p>}
           </th>
 
           {headersList.map((header) => {
@@ -155,6 +186,7 @@ const handleCheckTableHeaderBoxChange = (Index) => {
                     checked={header.value}
                   />
                   {header.name}
+                  {header.nullPointer ? <p className="tabHeaderNull">null</p>:<p></p>}
                 </td>
               </th>
             );
@@ -164,8 +196,8 @@ const handleCheckTableHeaderBoxChange = (Index) => {
       <tbody>
         {permissionList.map((item) => {
           return (
-            <tr key={item.id} className="header">
-              <td>
+            <tr key={item.id} >
+              <td className="header">
                 <input
                   type="checkbox"
                   defaultChecked={false}
@@ -173,6 +205,7 @@ const handleCheckTableHeaderBoxChange = (Index) => {
                   onChange={()=> {handleCheckHeaderBoxChange(item.id);}}
                 />
                 {item.name}
+                {item.nullPointer ? <p className="tabHeaderNull">null</p>:<p></p>}
               </td>
               <td className="permissions">
                 {item.permission_group.map((permission) => {
@@ -183,7 +216,8 @@ const handleCheckTableHeaderBoxChange = (Index) => {
                         defaultChecked={false}
                         checked={permission.value}
                         onChange={() => {
-                          handleCheckBoxChange(permission.id, item.id);
+                          handleCheckBoxChange(permission.id, item.id),
+                          setAllcheckNull(FuncCheckNullAll());
                         }}
                       />
                     </div>
