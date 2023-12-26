@@ -2,7 +2,7 @@ let headersList = [
     {
       id: 0,
       name: "List",
-      value: true,
+      value: false,
     },
     {
       id: 1,
@@ -12,7 +12,7 @@ let headersList = [
     {
       id: 2,
       name: "Edit",
-      value: true,
+      value: false,
     },
     {
       id: 3,
@@ -22,7 +22,7 @@ let headersList = [
     {
       id: 4,
       name: "Delete",
-      value: true,
+      value: false,
     },
     {
       id: 5,
@@ -32,14 +32,14 @@ let headersList = [
     {
       id: 6,
       name: "Import",
-      value: true,
+      value: false,
     },
   ];
   
   const permissionArray = [
     {
       id: 0,
-      value: true,
+      value: false,
       name: "Dashboard",
       permission_group: [
         {
@@ -123,7 +123,7 @@ let headersList = [
     },
     {
       id: 2,
-      value: true,
+      value: false,
       name: "Role",
       permission_group: [
         {
@@ -176,7 +176,7 @@ let headersList = [
         {
           id: 1,
           name: "create",
-          value: true,
+          value: false,
         },
         {
           id: 2,
@@ -207,7 +207,7 @@ let headersList = [
     },
     {
       id: 4,
-      value: true,
+      value: false,
       name: "Invoice",
       permission_group: [
         {
@@ -223,7 +223,7 @@ let headersList = [
         {
           id: 2,
           name: "edit",
-          value: true,
+          value: false,
         },
         {
           id: 3,
@@ -233,7 +233,7 @@ let headersList = [
         {
           id: 4,
           name: "delete",
-          value: true,
+          value: false,
         },
         {
           id: 5,
@@ -255,7 +255,7 @@ let headersList = [
         {
           id: 0,
           name: "list",
-          value: true,
+          value: false,
         },
         {
           id: 1,
@@ -270,7 +270,7 @@ let headersList = [
         {
           id: 3,
           name: "show",
-          value: true,
+          value: false,
         },
         {
           id: 4,
@@ -280,7 +280,7 @@ let headersList = [
         {
           id: 5,
           name: "export",
-          value: true,
+          value: false,
         },
         {
           id: 6,

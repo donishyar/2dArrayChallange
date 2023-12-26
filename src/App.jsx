@@ -8,6 +8,7 @@ export default function Home() {
   const [isChecked, setIsChecked] = useState(false);
   const [permissionList, setPermissionList] = useState(permissionArray);
   const [headerCheck, setHeaderCheck] = useState(permissionArray);
+  const [tableHeader , setTableHeader] = useState(headersList);
 
 
 
@@ -81,7 +82,7 @@ export default function Home() {
 
 
 
-  // for header checkboxs
+  // for sideHeader checkboxes
 
 const handleCheckHeaderBoxChange = (Index) => {
   permissionArray.forEach((permission) => {
@@ -98,16 +99,35 @@ const handleCheckHeaderBoxChange = (Index) => {
           permissionGroup.value = false;
           console.log(permissionGroup.value);
         });
-      }
+      } 
     }
   })
 };
 
 
+// for table header checkboxes
+const handleCheckTableHeaderBoxChange = (Index) => {
+  headersList.forEach((header) => {
+    if(header.id === Index){
+      header.value = !header.value
+      setTableHeader(header);
+      console.log(header.name+" "+header.value)
+      
+      } 
+    })
+  };
+
+
+  // null checkers 
+
+  // null checker for checkAll
+  // null checker for tableHeaders
+  // null checker for sideHeaders
+
 
 
   useEffect(() => {
-  }, [headerCheck,isChecked, permissionList]);
+  }, [headerCheck,isChecked,tableHeader]);
 
   // function for header
 
@@ -131,6 +151,7 @@ const handleCheckHeaderBoxChange = (Index) => {
                   <input
                     type="checkbox"
                     defaultChecked={false}
+                    onChange={()=> {handleCheckTableHeaderBoxChange(header.id)}}
                     checked={header.value}
                   />
                   {header.name}
