@@ -55,6 +55,11 @@ tr {
   gap: 1.25rem;
   width: 100%;
 }
+th {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 60px;
+}
 
 tbody {
   display: flex;

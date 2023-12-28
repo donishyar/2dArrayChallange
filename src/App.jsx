@@ -81,27 +81,24 @@ export default function Home() {
   // for sideHeader checkboxes
 
   const handleCheckHeaderBoxChange = (Index) => {
-    setPermissionList((prevPermissionList) => {
-      const updatedPermissionList = prevPermissionList.map((permission) => {
-        if (permission.id === Index) {
-          const updatedPermission = {
-            ...permission,
-            value: !permission.value,
-            permission_group: permission.permission_group.map((permissionGroup) => ({
-              ...permissionGroup,
-              value: !permission.value,
-            })),
-          };
-          return updatedPermission;
+    permissionArray.forEach((permission) => {
+      if (permission.id === Index) {
+        permission.value = !permission.value;
+        setHeaderCheck(permission);
+        if (permission.value) {
+          permission.permission_group.forEach((permissionGroup) => {
+            permissionGroup.value = true;
+            console.log(permissionGroup.value);
+          });
+        } else {
+          permission.permission_group.forEach((permissionGroup) => {
+            permissionGroup.value = false;
+            console.log(permissionGroup.value);
+          });
         }
-        return permission;
-      });
-  
-      return updatedPermissionList;
+      }
     });
   };
-  
-  
 
   // for table header checkboxes
   const handleCheckTableHeaderBoxChange = (Index) => {
@@ -125,44 +122,30 @@ export default function Home() {
 
   // null checker for checkAll
   const FuncCheckNullAll = () => {
-    let isAnyChecked = false;
-  
     for (let i = 0; i < permissionArray.length; i++) {
-      const category = permissionArray[i];
-  
-      if (category.value === true) {
-        isAnyChecked = true;
+      if (permissionArray[i].value == true) {
+        setAllcheckNull(true);
         break;
-      }
-  
-      for (let j = 0; j < category.permission_group.length; j++) {
-        const permission = category.permission_group[j];
-  
-        if (permission.value === true) {
-          isAnyChecked = true;
-          break;
+      } else {
+        const category = permissionArray[i];
+        for (let j = 0; j < category.permission_group.length; j++) {
+          const permission = category.permission_group[j];
+          if (permission.value == true) {
+            setAllcheckNull(true);
+            break;
+          }
+          console.log(
+            `  Permission ${permission.name} - value: ${permission.value}`
+          );
         }
-  
-        console.log(
-          `Permission ${permission.name} - value: ${permission.value}`
-        );
-      }
-  
-      if (isAnyChecked) {
-        break;
       }
     }
-  
-    setAllcheckNull(isAnyChecked);
   };
-  
 
   // null checker for tableHeaders
   // null checker for sideHeaders
 
-  useEffect(() => {
-    FuncCheckNullAll();
-  }, [permissionList, headersList]);
+  useEffect(() => {}, [headerCheck, isChecked, tableHeader]);
 
   return (
     <table>
