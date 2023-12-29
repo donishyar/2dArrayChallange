@@ -1,217 +1,210 @@
 import "./App.css";
-import { useState, useEffect } from "react";
-import { headersList, permissionArray, checkAll } from "./utils";
+import { useEffect, useState } from "react";
 
-export default function Home() {
-  const [isChecked, setIsChecked] = useState(false);
-  const [permissionList, setPermissionList] = useState(permissionArray);
-  const [headerCheck, setHeaderCheck] = useState(permissionArray);
-  const [tableHeader, setTableHeader] = useState(headersList);
-  const [checkAllNull, setAllcheckNull] = useState(false);
+const initialPermissionList = [
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+];
 
-  // const [TableHeaderNull , setTableHeadeNull] = useState(headersList);
-  // const [SideHeaderNull , setSideHeadeNull] = useState(permissionArray);
+const RowsList = [
+  "List",
+  "Create",
+  "Edit",
+  "Show",
+  "Delete",
+  "Export",
+  "Import",
+];
 
-  // for single checkboxes
+const ColumnList = [
+  "DashBoard",
+  "Storage",
+  "Custom Provider",
+  "Stock Out",
+  "Invoice",
+  "Unloading",
+  "User",
+  "Role",
+];
 
-  const handleCheckBoxChange = (selfIndex, parentIndex) => {
-    const updatedPermissionList = permissionList.map((permission) => {
-      if (permission.id === parentIndex) {
-        const updatedPermissionGroup = permission.permission_group.map(
-          (item) => {
-            if (item.id === selfIndex) {
-              return {
-                ...item,
-                value: !item.value,
-              };
-            }
-            return item;
-          }
-        );
-        return {
-          ...permission,
-          permission_group: updatedPermissionGroup,
-        };
+const RowsNullList = [true, false, false, true, false, false, false];
+
+const ColumnsNullList = [false, true, false, false, false, false, true, false];
+
+function App() {
+  const [permissionList, setPermissionList] = useState(initialPermissionList);
+  const [checkAll, setCheckAll] = useState(false);
+  const [rowsNullChecker, setRowsNullChecker] = useState(false);
+  const [columnNullChecker, setColumnNullChecker] = useState(false);
+  const [checkAllNullChecker, setCheckAllNullChecker] = useState(false);
+
+  const handleOneCheckbox = (row, col) => {
+    // for single check
+    const newPermissionList = [...permissionList];
+    newPermissionList[row][col] = !newPermissionList[row][col];
+    setPermissionList(newPermissionList);
+  };
+
+  const handleAllCheckbox = () => {
+    // for check all
+    if (checkAll) {
+      setCheckAll(false);
+      const updatedPermList = [...permissionList];
+      for (let i = 0; i < updatedPermList.length; i++) {
+        for (let j = 0; j < updatedPermList[i].length; j++) {
+          updatedPermList[i][j] = true;
+        }
       }
-      return permission;
-    });
-    setPermissionList(updatedPermissionList);
-  };
-
-  // for all checkboxes
-
-  const functionMultiCheck = () => {
-    permissionList.forEach((permission) => {
-      permission.value = true;
-      permission.permission_group.forEach((permissionGroup) => {
-        permissionGroup.value = true;
-        console.log(permissionGroup.value);
-      });
-    });
-
-    headersList.forEach((header_permission) => {
-      header_permission.value = true;
-    });
-  };
-
-  const functionUnMultiCheck = () => {
-    setIsChecked(false);
-    permissionList.forEach((permission) => {
-      permission.value = false;
-      permission.permission_group.forEach((permissionGroup) => {
-        permissionGroup.value = false;
-        console.log(permissionGroup.value);
-      });
-    });
-    headersList.forEach((header_permission) => {
-      header_permission.value = false;
-      console.log("header " + header_permission.value);
-    });
-  };
-
-  const handleCheckboxChange = (event) => {
-    setIsChecked(event.target.checked);
-    if (event.target.checked) {
-      functionMultiCheck();
     } else {
-      functionUnMultiCheck();
-    }
-  };
-
-  // for sideHeader checkboxes
-
-  const handleCheckHeaderBoxChange = (Index) => {
-    permissionArray.forEach((permission) => {
-      if (permission.id === Index) {
-        permission.value = !permission.value;
-        setHeaderCheck(permission);
-        if (permission.value) {
-          permission.permission_group.forEach((permissionGroup) => {
-            permissionGroup.value = true;
-            console.log(permissionGroup.value);
-          });
-        } else {
-          permission.permission_group.forEach((permissionGroup) => {
-            permissionGroup.value = false;
-            console.log(permissionGroup.value);
-          });
-        }
-      }
-    });
-  };
-
-  // for table header checkboxes
-  const handleCheckTableHeaderBoxChange = (Index) => {
-    headersList.forEach((header) => {
-      if (header.id === Index) {
-        header.value = !header.value;
-        setTableHeader(header);
-        console.log(header.name + " " + header.value);
-      }
-    });
-    permissionArray.forEach((permission) => {
-      permission.permission_group.forEach((item) => {
-        if (item.id == Index) {
-          item.value = !item.value;
-        }
-      });
-    });
-  };
-
-  // null checkers
-
-  // null checker for checkAll
-  const FuncCheckNullAll = () => {
-    for (let i = 0; i < permissionArray.length; i++) {
-      if (permissionArray[i].value == true) {
-        setAllcheckNull(true);
-        break;
-      } else {
-        const category = permissionArray[i];
-        for (let j = 0; j < category.permission_group.length; j++) {
-          const permission = category.permission_group[j];
-          if (permission.value == true) {
-            setAllcheckNull(true);
-            break;
-          }
-          console.log(
-            `  Permission ${permission.name} - value: ${permission.value}`
-          );
+      setCheckAll(true);
+      const updatedPermList = [...permissionList];
+      for (let i = 0; i < updatedPermList.length; i++) {
+        for (let j = 0; j < updatedPermList[i].length; j++) {
+          updatedPermList[i][j] = false;
         }
       }
     }
   };
 
-  // null checker for tableHeaders
-  // null checker for sideHeaders
+  const handleColumnCheckbox = (row, col) => {
+    const newPermissionList = [...permissionList];
+    newPermissionList[row][col] = !newPermissionList[row][col];
+    setPermissionList(newPermissionList);
 
-  useEffect(() => {}, [headerCheck, isChecked, tableHeader]);
+    if (permissionList[row][col] === true) {
+      const updatedPermList = [...permissionList];
+      for (let i = 0; i < updatedPermList.length; i++) {
+        for (let j = 0; j < updatedPermList[i].length; j++) {
+          updatedPermList[j][col] = true;
+        }
+      }
+    } else {
+      const updatedPermList = [...permissionList];
+      for (let i = 0; i < updatedPermList.length; i++) {
+        for (let j = 0; j < updatedPermList[i].length; j++) {
+          updatedPermList[j][col] = false;
+        }
+      }
+    }
+  };
+
+  const handleRowCheckbox = (row, col) => {
+    const newPermissionList = [...permissionList];
+    newPermissionList[row][col] = !newPermissionList[row][col];
+    setPermissionList(newPermissionList);
+
+    if (permissionList[row][col] === true) {
+      const updatedPermList = [...permissionList];
+      for (let i = 0; i < updatedPermList.length; i++) {
+        for (let j = 0; j < updatedPermList[i].length; j++) {
+          updatedPermList[row][j] = true;
+        }
+      }
+    } else {
+      const updatedPermList = [...permissionList];
+      for (let i = 0; i < updatedPermList.length; i++) {
+        for (let j = 0; j < updatedPermList[i].length; j++) {
+          updatedPermList[row][j] = false;
+        }
+      }
+    }
+  };
+
+  const handleCheckBoxChange = (row, col) => {
+    const AllowedColumns = [1, 2, 3, 4, 5, 6, 7];
+    const AllowedRows = [0, 1, 2, 3, 4, 5, 6, 7];
+    // for column checkbox
+    if (row == 0 && AllowedColumns.includes(col)) {
+      handleColumnCheckbox(row, col);
+      // for row checkbox
+    } else if (col == 0 && AllowedRows.includes(row)) {
+      handleRowCheckbox(row, col);
+      // default
+    } else if (AllowedColumns.includes(row) && AllowedColumns.includes(col)) {
+      handleOneCheckbox(row, col);
+      handleNullChecker(row, col);
+    } else {
+      handleOneCheckbox(row, col);
+    }
+  };
+
+  const TrueChecker = () => {
+    const updatedPermList = [...permissionList];
+    for (let i = 0; i < updatedPermList.length; i++) {
+      for (let j = 0; j < updatedPermList[i].length; j++) {
+        if (updatedPermList[i][j] === true) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  const handleNullChecker = (row, col) => {
+    if (TrueChecker()) {
+      setCheckAllNullChecker(true);
+    } else {
+      setCheckAllNullChecker(false);
+    }
+  };
+
+  useEffect(() => {}, [permissionList, checkAllNullChecker]);
 
   return (
-    <table>
-      <thead>
-        <tr className="main__header">
-          <th>
-            <input
-              type="checkbox"
-              onChange={handleCheckboxChange}
-              checked={isChecked}
-            />
-            {checkAll.name}
-            {checkAllNull ? <p className="tabHeaderNull">null</p> : null}
-          </th>
-
-          {headersList.map((header) => (
-            <th key={header.id}>
-              <input
-                type="checkbox"
-                defaultChecked={false}
-                onChange={() => {
-                  setTableHeader(prevHeader => ({...prevHeader, [header.id]: !prevHeader[header.id]}));
-                  handleCheckTableHeaderBoxChange(header.id);
-                }}
-                checked={header.value}
-              />
-              {header.name}
-              {header.nullPointer && <p className="tabHeaderNull">null</p>}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {permissionList.map((item) => (
-          <tr key={item.id}>
-            <td className="header">
-              <input
-                type="checkbox"
-                defaultChecked={false}
-                checked={item.value}
-                onChange={() => {
-                  setHeaderCheck(prevHeader => ({...prevHeader, [item.id]: !prevHeader[item.id]}));
-                  handleCheckHeaderBoxChange(item.id);
-                }}
-              />
-              {item.name}
-              {item.nullPointer && <p className="tabHeaderNull">null</p>}
-            </td>
-            <td className="permissions">
-              {item.permission_group.map((permission) => (
-                <div className="checkedBoxes" key={permission.id}>
-                  <input
-                    type="checkbox"
-                    defaultChecked={false}
-                    checked={permission.value}
-                    onChange={() => {
-                      handleCheckBoxChange(permission.id, item.id);
-                      FuncCheckNullAll();
-                    }}
-                  />
-                </div>
-              ))}
-            </td>
-          </tr>
+    <div className="main">
+      <div className="rowsList">
+        <div className="checkAll">
+          <input
+            type="checkbox"
+            defaultChecked={false}
+            checked={checkAll}
+            onChange={() => {
+              handleAllCheckbox();
+            }}
+          />
+          CheckAll
+          {checkAllNullChecker && <p className="null">Null</p>}
+        </div>
+        {RowsList.map((name, nameIndex) => (
+          <div key={nameIndex} className="rowName">
+            <p>{name}</p>
+          </div>
         ))}
-      </tbody>
-    </table>
+      </div>
+      <div className="wrapper">
+        <div className="column">
+          {ColumnList.map((name, nameIndex) => (
+            <div key={nameIndex} className="columnName">
+              <p>{name}</p>
+              {rowsNullChecker && <p className="null">Null</p>}
+            </div>
+          ))}
+        </div>
+        <div className="checkboxes">
+          {permissionList.map((row, rowIndex) => (
+            <div key={rowIndex} className="row">
+              {row.map((value, colIndex) => (
+                <input
+                  key={colIndex}
+                  type="checkbox"
+                  checked={value}
+                  onChange={() => {
+                    handleCheckBoxChange(rowIndex, colIndex);
+                  }}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
+
+export default App;
