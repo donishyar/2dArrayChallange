@@ -13,35 +13,93 @@ const initialPermissionList = [
 ];
 
 const RowsList = [
-  "List",
-  "Create",
-  "Edit",
-  "Show",
-  "Delete",
-  "Export",
-  "Import",
+  {
+    id: 1,
+    name: "List",
+    isNull: false,
+  },
+  {
+    id: 2,
+    name: "create",
+    isNull: false,
+  },
+  {
+    id: 3,
+    name: "Edit",
+    isNull: false,
+  },
+  {
+    id: 4,
+    name: "Show",
+    isNull: false,
+  },
+  {
+    id: 5,
+    name: "Delete",
+    isNull: false,
+  },
+  {
+    id: 6,
+    name: "Export",
+    isNull: false,
+  },
+  {
+    id: 7,
+    name: "Import",
+    isNull: false,
+  },
 ];
+
 
 const ColumnList = [
-  "DashBoard",
-  "Storage",
-  "Custom Provider",
-  "Stock Out",
-  "Invoice",
-  "Unloading",
-  "User",
-  "Role",
+  {
+    id: 0,
+    name: "DashBoard",
+    isNull: false,
+  },
+  {
+    id: 1,
+    name: "Storage",
+    isNull: false,
+  },
+  {
+    id: 2,
+    name: "Custom Provider",
+    isNull: false,
+  },
+  {
+    id: 3,
+    name: "Stock Out",
+    isNull: false,
+  },
+  {
+    id: 4,
+    name: "Invoice",
+    isNull: false,
+  },
+  {
+    id: 5,
+    name: "Unloading",
+    isNull: false,
+  },
+  {
+    id: 6,
+    name: "User",
+    isNull: false,
+  },
+  {
+    id: 7,
+    name: "Role",
+    isNull: false,
+  },
 ];
 
-const RowsNullList = [true, false, false, true, false, false, false];
-
-const ColumnsNullList = [false, true, false, false, false, false, true, false];
 
 function App() {
   const [permissionList, setPermissionList] = useState(initialPermissionList);
   const [checkAll, setCheckAll] = useState(false);
-  const [rowsNullChecker, setRowsNullChecker] = useState(false);
-  const [columnNullChecker, setColumnNullChecker] = useState(false);
+  const [rowsNullChecker, setRowsNullChecker] = useState(RowsList);
+  const [columnNullChecker, setColumnNullChecker] = useState(ColumnList);
   const [checkAllNullChecker, setCheckAllNullChecker] = useState(false);
 
   const handleOneCheckbox = (row, col) => {
@@ -125,12 +183,9 @@ function App() {
       // for row checkbox
     } else if (col == 0 && AllowedRows.includes(row)) {
       handleRowCheckbox(row, col);
-      // default
-    } else if (AllowedColumns.includes(row) && AllowedColumns.includes(col)) {
-      handleOneCheckbox(row, col);
-      handleNullChecker(row, col);
     } else {
       handleOneCheckbox(row, col);
+      handleNullChecker(row,col);
     }
   };
 
@@ -143,12 +198,39 @@ function App() {
         }
       }
     }
+    setColumnNullChecker (false);
+    setRowsNullChecker(false);
     return false;
+    
+
+    
   };
 
-  const handleNullChecker = (row, col) => {
+  const handleRowsNullChecker = (col) => {
+    RowsList.forEach((obj)=> {
+      if(obj.id == col){
+        obj.isNull = true;
+        setRowsNullChecker(true);
+        console.log(obj.name)
+      }
+    })
+  }
+
+  const handleColumnNullChecker = (col) => {
+    ColumnList.forEach((obj)=> {
+      if(obj.id == col){
+        obj.isNull = true;
+        setRowsNullChecker(true);
+        console.log(obj.name)
+      }
+    })
+  }
+
+  const handleNullChecker = (row,col) => {
     if (TrueChecker()) {
       setCheckAllNullChecker(true);
+      handleRowsNullChecker(col);
+      handleColumnNullChecker(row);
     } else {
       setCheckAllNullChecker(false);
     }
@@ -171,18 +253,21 @@ function App() {
           CheckAll
           {checkAllNullChecker && <p className="null">Null</p>}
         </div>
-        {RowsList.map((name, nameIndex) => (
-          <div key={nameIndex} className="rowName">
-            <p>{name}</p>
+        {RowsList.map((list) => (
+          <div key={list.id} className="rowName">
+            <p>{list.name}</p>
+            {list.isNull == rowsNullChecker}
+            {list.isNull && <p className="null">Null</p>}
           </div>
         ))}
       </div>
       <div className="wrapper">
         <div className="column">
-          {ColumnList.map((name, nameIndex) => (
-            <div key={nameIndex} className="columnName">
-              <p>{name}</p>
-              {rowsNullChecker && <p className="null">Null</p>}
+          {ColumnList.map((colHeader) => (
+            <div key={colHeader.id} className="columnName">
+              <p>{colHeader.name}</p>
+              {colHeader.isNull == columnNullChecker}
+              {colHeader.isNull && <p className="null">Null</p>}
             </div>
           ))}
         </div>
