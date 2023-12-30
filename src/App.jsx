@@ -142,6 +142,9 @@ function App() {
       for (let i = 0; i < updatedPermList.length; i++) {
         for (let j = 0; j <= updatedPermList[i].length; j++) {
           updatedPermList[j][col] = true;
+          if (TrueChecker) {
+            setCheckAllNullChecker(true);
+          }
         }
       }
     } else {
@@ -149,6 +152,9 @@ function App() {
       for (let i = 0; i < updatedPermList.length; i++) {
         for (let j = 0; j <= updatedPermList[i].length; j++) {
           updatedPermList[j][col] = false;
+          if (!TrueChecker) {
+            setCheckAllNullChecker(false);
+          }
         }
       }
     }
@@ -164,6 +170,7 @@ function App() {
       for (let i = 0; i < updatedPermList.length; i++) {
         for (let j = 0; j < updatedPermList[i].length; j++) {
           updatedPermList[row][j] = true;
+          setCheckAllNullChecker(true);
         }
       }
     } else {
@@ -171,6 +178,7 @@ function App() {
       for (let i = 0; i < updatedPermList.length; i++) {
         for (let j = 0; j < updatedPermList[i].length; j++) {
           updatedPermList[row][j] = false;
+          setCheckAllNullChecker(false);
         }
       }
     }
@@ -267,7 +275,16 @@ function App() {
                 return rowIndex === 0 &&
                   colIndex === 0 &&
                   checkAllNullChecker ? (
-                  <IndeterminateCheckBoxIcon key={colIndex}  className="null"/>
+                  <IndeterminateCheckBoxIcon
+                    key={colIndex}
+                    onClick={() => {
+                      if (checkAllNullChecker) {
+                        handleAllCheckbox();
+                        setCheckAllNullChecker(false);
+                      }
+                    }}
+                    className="null"
+                  />
                 ) : (
                   <Checkbox
                     key={colIndex}
@@ -283,8 +300,7 @@ function App() {
                     onChange={() => {
                       handleCheckBoxChange(rowIndex, colIndex);
                       if (rowIndex === 0 && colIndex === 0) {
-                        handleAllCheckbox(),
-                        setCheckAllNullChecker(false);
+                        handleAllCheckbox(), setCheckAllNullChecker(false);
                       }
                     }}
                   />
