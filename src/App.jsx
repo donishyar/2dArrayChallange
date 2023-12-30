@@ -1,7 +1,11 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import Checkbox from "@mui/material/Checkbox";
+import { lightBlue } from "@mui/material/colors";
+import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
 
 const initialPermissionList = [
+  [false, false, false, false, false, false, false, false],
   [false, false, false, false, false, false, false, false],
   [false, false, false, false, false, false, false, false],
   [false, false, false, false, false, false, false, false],
@@ -50,7 +54,6 @@ const RowsList = [
   },
 ];
 
-
 const ColumnList = [
   {
     id: 0,
@@ -93,7 +96,6 @@ const ColumnList = [
     isNull: false,
   },
 ];
-
 
 function App() {
   const [permissionList, setPermissionList] = useState(initialPermissionList);
@@ -138,14 +140,14 @@ function App() {
     if (permissionList[row][col] === true) {
       const updatedPermList = [...permissionList];
       for (let i = 0; i < updatedPermList.length; i++) {
-        for (let j = 0; j < updatedPermList[i].length; j++) {
+        for (let j = 0; j <= updatedPermList[i].length; j++) {
           updatedPermList[j][col] = true;
         }
       }
     } else {
       const updatedPermList = [...permissionList];
       for (let i = 0; i < updatedPermList.length; i++) {
-        for (let j = 0; j < updatedPermList[i].length; j++) {
+        for (let j = 0; j <= updatedPermList[i].length; j++) {
           updatedPermList[j][col] = false;
         }
       }
@@ -176,7 +178,7 @@ function App() {
 
   const handleCheckBoxChange = (row, col) => {
     const AllowedColumns = [1, 2, 3, 4, 5, 6, 7];
-    const AllowedRows = [0, 1, 2, 3, 4, 5, 6, 7];
+    const AllowedRows = [1, 2, 3, 4, 5, 6, 7, 8];
     // for column checkbox
     if (row == 0 && AllowedColumns.includes(col)) {
       handleColumnCheckbox(row, col);
@@ -185,7 +187,7 @@ function App() {
       handleRowCheckbox(row, col);
     } else {
       handleOneCheckbox(row, col);
-      handleNullChecker(row,col);
+      handleNullChecker(row, col);
     }
   };
 
@@ -198,35 +200,32 @@ function App() {
         }
       }
     }
-    setColumnNullChecker (false);
+    setColumnNullChecker(false);
     setRowsNullChecker(false);
     return false;
-    
-
-    
   };
 
   const handleRowsNullChecker = (col) => {
-    RowsList.forEach((obj)=> {
-      if(obj.id == col){
+    RowsList.forEach((obj) => {
+      if (obj.id == col) {
         obj.isNull = true;
         setRowsNullChecker(true);
-        console.log(obj.name)
+        console.log(obj.name);
       }
-    })
-  }
+    });
+  };
 
   const handleColumnNullChecker = (col) => {
-    ColumnList.forEach((obj)=> {
-      if(obj.id == col){
+    ColumnList.forEach((obj) => {
+      if (obj.id == col) {
         obj.isNull = true;
         setRowsNullChecker(true);
-        console.log(obj.name)
+        console.log(obj.name);
       }
-    })
-  }
+    });
+  };
 
-  const handleNullChecker = (row,col) => {
+  const handleNullChecker = (row, col) => {
     if (TrueChecker()) {
       setCheckAllNullChecker(true);
       handleRowsNullChecker(col);
@@ -241,23 +240,13 @@ function App() {
   return (
     <div className="main">
       <div className="rowsList">
-        <div className="checkAll">
-          <input
-            type="checkbox"
-            defaultChecked={false}
-            checked={checkAll}
-            onChange={() => {
-              handleAllCheckbox();
-            }}
-          />
-          CheckAll
-          {checkAllNullChecker && <p className="null">Null</p>}
-        </div>
+        <div className="spacer"></div>
+        <div className="checkAll">CheckAll</div>
         {RowsList.map((list) => (
           <div key={list.id} className="rowName">
             <p>{list.name}</p>
             {list.isNull == rowsNullChecker}
-            {list.isNull && <p className="null">Null</p>}
+            {/* {list.isNull && <p className="null">Null</p>} */}
           </div>
         ))}
       </div>
@@ -267,23 +256,40 @@ function App() {
             <div key={colHeader.id} className="columnName">
               <p>{colHeader.name}</p>
               {colHeader.isNull == columnNullChecker}
-              {colHeader.isNull && <p className="null">Null</p>}
+              {/* {colHeader.isNull && <p className="null">Null</p>} */}
             </div>
           ))}
         </div>
         <div className="checkboxes">
           {permissionList.map((row, rowIndex) => (
             <div key={rowIndex} className="row">
-              {row.map((value, colIndex) => (
-                <input
-                  key={colIndex}
-                  type="checkbox"
-                  checked={value}
-                  onChange={() => {
-                    handleCheckBoxChange(rowIndex, colIndex);
-                  }}
-                />
-              ))}
+              {row.map((value, colIndex) => {
+                return rowIndex === 0 &&
+                  colIndex === 0 &&
+                  checkAllNullChecker ? (
+                  <IndeterminateCheckBoxIcon key={colIndex}  className="null"/>
+                ) : (
+                  <Checkbox
+                    key={colIndex}
+                    type="checkbox"
+                    defaultChecked
+                    sx={{
+                      color: lightBlue[800],
+                      "&.Mui-checked": {
+                        color: lightBlue[600],
+                      },
+                    }}
+                    checked={value}
+                    onChange={() => {
+                      handleCheckBoxChange(rowIndex, colIndex);
+                      if (rowIndex === 0 && colIndex === 0) {
+                        handleAllCheckbox(),
+                        setCheckAllNullChecker(false);
+                      }
+                    }}
+                  />
+                );
+              })}
             </div>
           ))}
         </div>
