@@ -243,7 +243,9 @@ function App() {
     }
   };
 
-  useEffect(() => {}, [permissionList, checkAllNullChecker]);
+  useEffect(() => {
+    TrueChecker();
+  }, [permissionList, checkAllNullChecker]);
 
   return (
     <div className="main">
@@ -264,7 +266,17 @@ function App() {
             <div key={colHeader.id} className="columnName">
               <p>{colHeader.name}</p>
               {colHeader.isNull == columnNullChecker}
-              {/* {colHeader.isNull && <p className="null">Null</p>} */}
+              {colHeader.isNull && (
+                <IndeterminateCheckBoxIcon
+                  onClick={() => {
+                    if (checkAllNullChecker) {
+                      handleAllCheckbox();
+                      setCheckAllNullChecker(false);
+                    }
+                  }}
+                  className="null"
+                />
+              )}
             </div>
           ))}
         </div>

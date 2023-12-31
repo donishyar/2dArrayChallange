@@ -22,16 +22,18 @@
   flex-flow: column nowrap;
   justify-content: center;
   align-items: flex-end;
-  width: fit-content;
+  width: max-content;
   height: 106.5%;
   line-height: 25px;
   gap: 10px;
   padding: 1rem;
   padding-right: 4rem;
+  padding-left: 3rem;
   background-color: brown;
   margin-top: 4rem;
   margin-right: -3rem;
   font-weight: 700;
+
   
 }
 
@@ -55,14 +57,15 @@
 .rowsList {
   display: flex;
   flex-flow: row nowrap;
-  width: 100%;
+  width: fit-content;
   height: 90px;
   justify-content: center;
   align-items: center;
   font-weight: 700;
-  background-color: chocolate;
+  background-color: coral;
   gap: 1.2rem;
   padding-left: 7em;
+  padding-right: 1rem;
 }
 
 
