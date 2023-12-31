@@ -265,7 +265,7 @@ function App() {
           {ColumnList.map((colHeader) => (
             <div key={colHeader.id} className="columnName">
               <p>{colHeader.name}</p>
-              {colHeader.isNull == columnNullChecker}
+              {/* {colHeader.isNull == columnNullChecker}
               {colHeader.isNull && (
                 <IndeterminateCheckBoxIcon
                   onClick={() => {
@@ -276,7 +276,7 @@ function App() {
                   }}
                   className="null"
                 />
-              )}
+              )} */}
             </div>
           ))}
         </div>
