@@ -11,37 +11,36 @@
 .wrapper {
   display: flex;
   width: 100%;
-  height: 67%;
   flex-flow: row nowrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .column {
+  position: relative;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
-  align-items: flex-end;
-  width: max-content;
-  height: 106.5%;
-  line-height: 25px;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  line-height: 2rem;
   gap: 10px;
-  padding: 1rem;
-  padding-right: 4rem;
-  padding-left: 3rem;
-  background-color: brown;
-  margin-top: 4rem;
-  margin-right: -3rem;
   font-weight: 700;
+  z-index: 0;
+  color: black;
+  padding-left: 1rem;
 
-  
 }
 
 .row {
+  position: relative;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  gap: 1rem;
+  gap: 4.5rem;
+  z-index: 4;
+  background-color: cadetblue;
 }
 
 .checkboxes {
@@ -51,26 +50,26 @@
   flex-flow: column nowrap;
   width: fit-content;
   height: fit-content;
-  gap: 1.6rem;
+  gap: 2rem;
+  
 }
 
 .rowsList {
   display: flex;
   flex-flow: row nowrap;
-  width: fit-content;
+  width: 100%;
   height: 90px;
   justify-content: center;
   align-items: center;
   font-weight: 700;
-  background-color: coral;
+  background-color: #3569bd;
   gap: 1.2rem;
   padding-left: 7em;
   padding-right: 1rem;
 }
 
-
 .null {
-  color: yellow;
+  color: gray;
   margin-top: 8px;
   margin-right: 9.5px;
   margin-left: 8px;
@@ -82,4 +81,9 @@
 }
 
 .checkAll {
+}
+
+.columnName {
+  width: 100%;
+  white-space: nowrap;
 }
