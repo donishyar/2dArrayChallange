@@ -1,7 +1,7 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
-import { lightBlue } from "@mui/material/colors";
+import { pink } from "@mui/material/colors";
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
 
 const initialPermissionList = [
@@ -243,9 +243,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    TrueChecker();
-  }, [permissionList, checkAllNullChecker]);
+  useEffect(() => {}, [permissionList, checkAllNullChecker, columnNullChecker]);
 
   return (
     <div className="main">
@@ -281,45 +279,77 @@ function App() {
           ))}
         </div>
         <div className="checkboxes">
-          {permissionList.map((row, rowIndex) => (
-            <div key={rowIndex} className="row">
-              {row.map((value, colIndex) => {
-                return rowIndex === 0 &&
-                  colIndex === 0 &&
-                  checkAllNullChecker ? (
-                  <IndeterminateCheckBoxIcon
-                    key={colIndex}
-                    onClick={() => {
-                      if (checkAllNullChecker) {
-                        handleAllCheckbox();
-                        setCheckAllNullChecker(false);
-                      }
-                    }}
-                    className="null"
-                  />
-                ) : (
-                  <Checkbox
-                    key={colIndex}
-                    type="checkbox"
-                    defaultChecked
-                    sx={{
-                      color: lightBlue[800],
-                      "&.Mui-checked": {
-                        color: lightBlue[600],
-                      },
-                    }}
-                    checked={value}
-                    onChange={() => {
-                      handleCheckBoxChange(rowIndex, colIndex);
-                      if (rowIndex === 0 && colIndex === 0) {
-                        handleAllCheckbox(), setCheckAllNullChecker(false);
-                      }
-                    }}
-                  />
-                );
-              })}
-            </div>
-          ))}
+          {permissionList.map((row, rowIndex) =>
+            rowIndex % 2 ? (
+              <div key={rowIndex} className="row">
+                {row.map((value, colIndex) => {
+                  return rowIndex === 0 &&
+                    colIndex === 0 &&
+                    checkAllNullChecker ? (
+                    <IndeterminateCheckBoxIcon
+                    sx={{ fontSize: 40 }}
+                      key={colIndex}
+                      onClick={() => {
+                        if (checkAllNullChecker) {
+                          handleAllCheckbox();
+                          setCheckAllNullChecker(false);
+                        }
+                      }}
+                      className="null"
+                    />
+                  ) : (
+                    <Checkbox
+                      key={colIndex}
+                      type="checkbox"
+                      defaultChecked
+                      sx={{ '& .MuiSvgIcon-root': { fontSize:38 }, color:pink[600]}}
+                      checked={value}
+                      onChange={() => {
+                        handleCheckBoxChange(rowIndex, colIndex);
+                        if (rowIndex === 0 && colIndex === 0) {
+                          handleAllCheckbox(), setCheckAllNullChecker(false);
+                        }
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            ) : (
+              <div key={rowIndex} className="row2">
+                {row.map((value, colIndex) => {
+                  return rowIndex === 0 &&
+                    colIndex === 0 &&
+                    checkAllNullChecker ? (
+                    <IndeterminateCheckBoxIcon
+                      key={colIndex}
+                      onClick={() => {
+                        if (checkAllNullChecker) {
+                          handleAllCheckbox();
+                          setCheckAllNullChecker(false);
+                        }
+                      }}
+                      className="null"
+                    />
+                  ) : (
+                    <Checkbox
+                      key={colIndex}
+                      type="checkbox"
+                      defaultChecked
+                      sx={{ '& .MuiSvgIcon-root': { fontSize:38 }, color:pink[600]}}
+                      
+                      checked={value}
+                      onChange={() => {
+                        handleCheckBoxChange(rowIndex, colIndex);
+                        if (rowIndex === 0 && colIndex === 0) {
+                          handleAllCheckbox(), setCheckAllNullChecker(false);
+                        }
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            ),
+          )}
         </div>
       </div>
     </div>
