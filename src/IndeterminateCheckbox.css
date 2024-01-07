@@ -1,0 +1,41 @@
+.Row_odd {
+    display: flex;
+    width:80%;
+    justify-content: space-between;
+    align-items: center;
+    
+  border: 1px solid cornflowerblue;
+  }
+  .Row_even{
+    display: flex;
+    width:80%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #CAE4FA;
+    border: 1px solid cornflowerblue;
+  }
+
+  .checkAll {
+    background-color: #fff;
+    padding-right: 3rem;
+    align-self: flex-start;
+  }
+  
+  .rowList {
+    width: 135%;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+  }
+
+  .parentRow {
+    display: flex;
+    width:80%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #5094fa;
+    border: 1px solid #5094fa;
+    border-top-width: 2.4rem;
+    margin-top: -2.2rem;
+  }
