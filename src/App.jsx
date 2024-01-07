@@ -3,99 +3,7 @@ import { useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import { pink } from "@mui/material/colors";
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
-
-const initialPermissionList = [
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-  [false, false, false, false, false, false, false, false],
-];
-
-const RowsList = [
-  {
-    id: 1,
-    name: "List",
-    isNull: false,
-  },
-  {
-    id: 2,
-    name: "create",
-    isNull: false,
-  },
-  {
-    id: 3,
-    name: "Edit",
-    isNull: false,
-  },
-  {
-    id: 4,
-    name: "Show",
-    isNull: false,
-  },
-  {
-    id: 5,
-    name: "Delete",
-    isNull: false,
-  },
-  {
-    id: 6,
-    name: "Export",
-    isNull: false,
-  },
-  {
-    id: 7,
-    name: "Import",
-    isNull: false,
-  },
-];
-
-const ColumnList = [
-  {
-    id: 0,
-    name: "DashBoard",
-    isNull: false,
-  },
-  {
-    id: 1,
-    name: "Storage",
-    isNull: false,
-  },
-  {
-    id: 2,
-    name: "Custom Provider",
-    isNull: false,
-  },
-  {
-    id: 3,
-    name: "Stock Out",
-    isNull: false,
-  },
-  {
-    id: 4,
-    name: "Invoice",
-    isNull: false,
-  },
-  {
-    id: 5,
-    name: "Unloading",
-    isNull: false,
-  },
-  {
-    id: 6,
-    name: "User",
-    isNull: false,
-  },
-  {
-    id: 7,
-    name: "Role",
-    isNull: false,
-  },
-];
+import { ColumnList, RowsList, initialPermissionList } from "./utils";
 
 function App() {
   const [permissionList, setPermissionList] = useState(initialPermissionList);
@@ -153,7 +61,9 @@ function App() {
         for (let j = 0; j <= updatedPermList[i].length; j++) {
           updatedPermList[j][col] = false;
           if (!TrueChecker) {
+            setCheckAllNullChecker(false);
             setColumnNullChecker(false);
+            setRowsNullChecker(false);
           }
         }
       }
@@ -178,9 +88,7 @@ function App() {
       for (let i = 0; i < updatedPermList.length; i++) {
         for (let j = 0; j < updatedPermList[i].length; j++) {
           updatedPermList[row][j] = false;
-          if (!TrueChecker) {
-          setRowsNullChecker(false);
-          }
+          setCheckAllNullChecker(false);
         }
       }
     }
@@ -190,10 +98,10 @@ function App() {
     const AllowedColumns = [1, 2, 3, 4, 5, 6, 7];
     const AllowedRows = [1, 2, 3, 4, 5, 6, 7, 8];
     // for column checkbox
-    if (row == 0 && AllowedColumns.includes(col)) {
+    if (row === 0 && AllowedColumns.includes(col)) {
       handleColumnCheckbox(row, col);
       // for row checkbox
-    } else if (col == 0 && AllowedRows.includes(row)) {
+    } else if (col === 0 && AllowedRows.includes(row)) {
       handleRowCheckbox(row, col);
     } else {
       handleOneCheckbox(row, col);
@@ -206,41 +114,56 @@ function App() {
     for (let i = 0; i < updatedPermList.length; i++) {
       for (let j = 0; j < updatedPermList[i].length; j++) {
         if (updatedPermList[i][j] === true) {
-          setColumnNullChecker(true);
-          setRowsNullChecker(true);
           return true;
         }
       }
     }
-    setColumnNullChecker(false);
-    setRowsNullChecker(false);
     return false;
   };
 
   const handleRowsNullChecker = (col) => {
+    let hasTrueValue = false;
+
     RowsList.forEach((obj) => {
-      if (obj.id == col && TrueChecker) {
+      if (obj.id === col && TrueChecker()) {
         obj.isNull = true;
-        setRowsNullChecker(true);
-        console.log("works");
-      }else {
-        setRowsNullChecker(false);
+        hasTrueValue = true;
+      } else if (obj.id === col && !TrueChecker()) {
         obj.isNull = false;
+      } else if (obj.isNull) {
+        // Keep null for other indices
+        hasTrueValue = true;
       }
     });
+
+    if (!hasTrueValue) {
+      setRowsNullChecker(false); // Set to false if no true values
+    } else {
+      setRowsNullChecker(true);
+    }
   };
 
-  const handleColumnNullChecker = (col) => {
+  const handleColumnNullChecker = (row) => {
+    let hasTrueValue = false;
+
     ColumnList.forEach((obj) => {
-      if (obj.id == col && TrueChecker) {
+      if (obj.id === row && TrueChecker()) {
         obj.isNull = true;
-        setRowsNullChecker(true);
-        console.log("works");
-      }else {
-        setRowsNullChecker(false);
+        hasTrueValue = true;
+      } else if (obj.id === row && !TrueChecker()) {
         obj.isNull = false;
+      } else if (obj.isNull) {
+        // Keep null for other indices
+        hasTrueValue = true;
       }
-})};
+    });
+
+    if (!hasTrueValue) {
+      setColumnNullChecker(false); // Set to false if no true values
+    } else {
+      setColumnNullChecker(true);
+    }
+  };
 
   const handleNullChecker = (row, col) => {
     if (TrueChecker()) {
@@ -254,7 +177,13 @@ function App() {
     }
   };
 
-  useEffect(() => {}, [permissionList, checkAllNullChecker,rowsNullChecker, columnNullChecker]);
+  
+  useEffect(() => {}, [
+    permissionList,
+    checkAllNullChecker,
+    rowsNullChecker,
+    columnNullChecker,
+  ]);
 
   return (
     <div className="main">
@@ -264,18 +193,18 @@ function App() {
         {RowsList.map((list) => (
           <div key={list.id} className="rowName">
             <p>{list.name}</p>
-            {list.isNull == columnNullChecker}
-              {list.isNull && (
-                <IndeterminateCheckBoxIcon
-                  onClick={() => {
-                    if (checkAllNullChecker) {
-                      handleAllCheckbox();
-                      setCheckAllNullChecker(false);
-                    }
-                  }}
-                  className="null"
-                />
-              )}
+            {list.isNull === columnNullChecker}
+            {list.isNull && (
+              <IndeterminateCheckBoxIcon
+                onClick={() => {
+                  if (checkAllNullChecker) {
+                    handleAllCheckbox();
+                    setCheckAllNullChecker(false);
+                  }
+                }}
+                className="null"
+              />
+            )}
           </div>
         ))}
       </div>
@@ -284,7 +213,7 @@ function App() {
           {ColumnList.map((colHeader) => (
             <div key={colHeader.id} className="columnName">
               <p>{colHeader.name}</p>
-              {colHeader.isNull == columnNullChecker}
+              {colHeader.isNull === columnNullChecker}
               {colHeader.isNull && (
                 <IndeterminateCheckBoxIcon
                   onClick={() => {
@@ -308,7 +237,7 @@ function App() {
                     colIndex === 0 &&
                     checkAllNullChecker ? (
                     <IndeterminateCheckBoxIcon
-                    sx={{ fontSize: 40 }}
+                      sx={{ fontSize: 40 }}
                       key={colIndex}
                       onClick={() => {
                         if (checkAllNullChecker) {
@@ -323,7 +252,9 @@ function App() {
                       key={colIndex}
                       type="checkbox"
                       defaultChecked
-                      sx={{ '& .MuiSvgIcon-root': { fontSize:30 }, color:pink[600]}}
+                      sx={{
+                        "& .MuiSvgIcon-root": { fontSize: 30 }
+                      }}
                       checked={value}
                       onChange={() => {
                         handleCheckBoxChange(rowIndex, colIndex);
@@ -356,8 +287,10 @@ function App() {
                       key={colIndex}
                       type="checkbox"
                       defaultChecked
-                      sx={{ '& .MuiSvgIcon-root': { fontSize:30 }, color:pink[600]}}
-                      
+                      sx={{
+                        "& .MuiSvgIcon-root": { fontSize: 30 },
+                        color: pink[600],
+                      }}
                       checked={value}
                       onChange={() => {
                         handleCheckBoxChange(rowIndex, colIndex);
@@ -369,7 +302,7 @@ function App() {
                   );
                 })}
               </div>
-            ),
+            )
           )}
         </div>
       </div>

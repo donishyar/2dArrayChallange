@@ -1,320 +1,94 @@
-let checkAll = {
-  id:0,
-  name : "CheckAll",
-  value : false,
-  nullPointer : false
-}
+export const initialPermissionList = [
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+  [false, false, false, false, false, false, false, false],
+];
+
+export const RowsList = [
+  {
+    id: 1,
+    name: "List",
+    isNull: false,
+  },
+  {
+    id: 2,
+    name: "create",
+    isNull: false,
+  },
+  {
+    id: 3,
+    name: "Edit",
+    isNull: false,
+  },
+  {
+    id: 4,
+    name: "Show",
+    isNull: false,
+  },
+  {
+    id: 5,
+    name: "Delete",
+    isNull: false,
+  },
+  {
+    id: 6,
+    name: "Export",
+    isNull: false,
+  },
+  {
+    id: 7,
+    name: "Import",
+    isNull: false,
+  },
+];
+
+export const ColumnList = [
+  {
+    id: 0,
+    name: "DashBoard",
+    isNull: false,
+  },
+  {
+    id: 1,
+    name: "Storage",
+    isNull: false,
+  },
+  {
+    id: 2,
+    name: "Custom Provider",
+    isNull: false,
+  },
+  {
+    id: 3,
+    name: "Stock Out",
+    isNull: false,
+  },
+  {
+    id: 4,
+    name: "Invoice",
+    isNull: false,
+  },
+  {
+    id: 5,
+    name: "Unloading",
+    isNull: false,
+  },
+  {
+    id: 6,
+    name: "User",
+    isNull: false,
+  },
+  {
+    id: 7,
+    name: "Role",
+    isNull: false,
+  },
+];
 
 
-let headersList = [
-    {
-      id: 0,
-      name: "List",
-      value: false,
-      nullPointer: false,
-    },
-    {
-      id: 1,
-      name: "Create",
-      value: false,
-      nullPointer: false,
-    },
-    {
-      id: 2,
-      name: "Edit",
-      value: false,
-      nullPointer: false,
-    },
-    {
-      id: 3,
-      name: "Show",
-      value: false,
-      nullPointer: false,
-    },
-    {
-      id: 4,
-      name: "Delete",
-      value: false,
-      nullPointer: false,
-    },
-    {
-      id: 5,
-      name: "Export",
-      value: false,
-      nullPointer: false,
-    },
-    {
-      id: 6,
-      name: "Import",
-      value: false,
-      nullPointer: false,
-    },
-  ];
-  
-  const permissionArray = [
-    {
-      id: 0,
-      value: false,
-      name: "Dashboard",
-      nullPointer: false,
-      permission_group: [
-        {
-          id: 0,
-          name: "list",
-          value: false,
-        },
-        {
-          id: 1,
-          name: "create",
-          value: false,
-        },
-        {
-          id: 2,
-          name: "edit",
-          value: false,
-        },
-        {
-          id: 3,
-          name: "show",
-          value: false,
-        },
-        {
-          id: 4,
-          name: "delete",
-          value: false,
-        },
-        {
-          id: 5,
-          name: "export",
-          value: false,
-        },
-        {
-          id: 6,
-          name: "import",
-          value: false,
-        },
-      ],
-    },
-    {
-      id: 1,
-      value: false,
-      name: "Storage",
-      nullPointer: false,
-      permission_group: [
-        {
-          id: 0,
-          name: "list",
-          value: false,
-        },
-        {
-          id: 1,
-          name: "create",
-          value: false,
-        },
-        {
-          id: 2,
-          name: "edit",
-          value: false,
-        },
-        {
-          id: 3,
-          name: "show",
-          value: false,
-        },
-        {
-          id: 4,
-          name: "delete",
-          value: false,
-        },
-        {
-          id: 5,
-          name: "export",
-          value: false,
-        },
-        {
-          id: 6,
-          name: "import",
-          value: false,
-        },
-      ],
-    },
-    {
-      id: 2,
-      value: false,
-      name: "Role",
-      nullPointer: false,
-      permission_group: [
-        {
-          id: 0,
-          name: "list",
-          value: false,
-        },
-        {
-          id: 1,
-          name: "create",
-          value: false,
-        },
-        {
-          id: 2,
-          name: "edit",
-          value: false,
-        },
-        {
-          id: 3,
-          name: "show",
-          value: false,
-        },
-        {
-          id: 4,
-          name: "delete",
-          value: false,
-        },
-        {
-          id: 5,
-          name: "export",
-          value: false,
-        },
-        {
-          id: 6,
-          name: "import",
-          value: false,
-        },
-      ],
-    },
-    {
-      id: 3,
-      value: false,
-      name: "Stock out",
-      nullPointer: false,
-      permission_group: [
-        {
-          id: 0,
-          name: "list",
-          value: false,
-        },
-        {
-          id: 1,
-          name: "create",
-          value: false,
-        },
-        {
-          id: 2,
-          name: "edit",
-          value: false,
-        },
-        {
-          id: 3,
-          name: "show",
-          value: false,
-        },
-        {
-          id: 4,
-          name: "delete",
-          value: false,
-        },
-        {
-          id: 5,
-          name: "export",
-          value: false,
-        },
-        {
-          id: 6,
-          name: "import",
-          value: false,
-        },
-      ],
-    },
-    {
-      id: 4,
-      value: false,
-      name: "Invoice",
-      nullPointer: false,
-      permission_group: [
-        {
-          id: 0,
-          name: "list",
-          value: false,
-        },
-        {
-          id: 1,
-          name: "create",
-          value: false,
-        },
-        {
-          id: 2,
-          name: "edit",
-          value: false,
-        },
-        {
-          id: 3,
-          name: "show",
-          value: false,
-        },
-        {
-          id: 4,
-          name: "delete",
-          value: false,
-        },
-        {
-          id: 5,
-          name: "export",
-          value: false,
-        },
-        {
-          id: 6,
-          name: "import",
-          value: false,
-        },
-      ],
-    },
-    {
-      id: 5,
-      value: false,
-      name: "User",
-      nullPointer: false,
-      permission_group: [
-        {
-          id: 0,
-          name: "list",
-          value: false,
-        },
-        {
-          id: 1,
-          name: "create",
-          value: false,
-        },
-        {
-          id: 2,
-          name: "edit",
-          value: false,
-        },
-        {
-          id: 3,
-          name: "show",
-          value: false,
-        },
-        {
-          id: 4,
-          name: "delete",
-          value: false,
-        },
-        {
-          id: 5,
-          name: "export",
-          value: false,
-        },
-        {
-          id: 6,
-          name: "import",
-          value: false,
-        },
-      ],
-    },
-  ];
-
-
-
-  
-
-
-   export {headersList,permissionArray,checkAll}
