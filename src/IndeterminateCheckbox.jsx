@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import "./IndeterminateCheckbox.css";
-import { ColumnList, initialPermissionList, RowNames, RowsList } from "./utils";
+import {initialPermissionList, RowNames } from "./utils";
 
 const ParentChildApp = () => {
   const [permissionList, setPermissionList] = useState(initialPermissionList);
@@ -106,13 +106,13 @@ const ParentChildApp = () => {
           key={childIndex}
           control={
             <Checkbox
-              indeterminate={
-                parentIndex === 0
-                  ? ColumnList.some(
-                      (col) => col.isNull === true && col.id === childIndex + 1,
-                    )
-                  : null
-              }
+              // indeterminate={
+              //   parentIndex === 0
+              //     ? ColumnList.some(
+              //         (col) => col.isNull === true && col.id === childIndex + 1,
+              //       )
+              //     : null
+              // }
               checked={permissionList[parentIndex][childIndex]}
               onChange={() => handleChildChange(parentIndex, childIndex)}
             />
