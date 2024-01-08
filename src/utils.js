@@ -10,29 +10,26 @@ export const initialPermissionList = [
   [false, false, false, false, false, false, false, false],
 ];
 
-export const checker = (row,col) => {
+export const checker = (row, col) => {
   // eslint-disable-next-line for-direction
-  for(let i = 0 ; i<initialPermissionList.length;i++){
-   for(let j = 0 ; j<initialPermissionList[i]; j++) {
-    if(row == 0 && col == 0){
-      initialPermissionList[i][j] = true;
-      console.log(initialPermissionList[i][j]);
+  for (let i = 0; i < initialPermissionList.length; i++) {
+    for (let j = 0; j < initialPermissionList[i]; j++) {
+      if (row == 0 && col == 0) {
+        initialPermissionList[i][j] = true;
+        console.log(initialPermissionList[i][j]);
+      } else if (row == 0 && col !== 0) {
+        initialPermissionList[row][j] = true;
+        console.log(initialPermissionList[row][j]);
+      } else if (col == 0 && row !== 0) {
+        initialPermissionList[j][col] = true;
+        console.log(initialPermissionList[j][col]);
+      } else {
+        initialPermissionList[row][col] = true;
+        console.log(initialPermissionList[row][col]);
+      }
     }
-     else if(row == 0 && col !== 0) {
-      initialPermissionList[row][j] = true;
-      console.log(initialPermissionList[row][j]);
-    }
-    else if(col == 0 && row !== 0) {
-      initialPermissionList[j][col] = true;
-      console.log(initialPermissionList[j][col]);
-    }else {
-      initialPermissionList[row][col] = true;
-      console.log(initialPermissionList[row][col]);
-
-    }
-   }
   }
-}
+};
 
 export const ColumnList = [
   {
@@ -120,6 +117,5 @@ export const RowsList = [
   },
 ];
 
-
-export const RowNames = RowsList.map(row => row.name);
-export const ColumnNames = ColumnList.map(row => row.name);
+export const RowNames = RowsList.map((row) => row.name);
+export const ColumnNames = ColumnList.map((row) => row.name);
