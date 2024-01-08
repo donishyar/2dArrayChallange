@@ -7,6 +7,17 @@ import { ColumnList, initialPermissionList, RowNames, RowsList } from "./utils";
 
 const ParentChildApp = () => {
   const [permissionList, setPermissionList] = useState(initialPermissionList);
+  const [isChecked, setIsChecked] = useState(true);
+  const [indeterminate,setIndeterminate] = useState(true);
+
+  const handleIndeterminateChange = (parentIndex) => {
+    const updatedPermissions = [...permissionList];
+    updatedPermissions[parentIndex] = updatedPermissions[parentIndex].map(
+      () => setIndeterminate(!indeterminate)
+    );
+
+    setPermissionList(updatedPermissions);
+  };
 
   const handleCheckColumnCheckbox = (row, col) => {
     const newPermissionList = [...permissionList];
@@ -31,11 +42,18 @@ const ParentChildApp = () => {
   };
 
   const handleCheckAll = () => {
-    const updatedPermissions = [...permissionList];
-    for (let i = 0; i < initialPermissionList.length; i++) {
-      updatedPermissions[i] = updatedPermissions[i].map((child) => !child);
-      setPermissionList(updatedPermissions);
-    }
+    // Assuming you have a state variable to track the current state
+
+    // Update the state variable on each call
+    setIsChecked((prevChecked) => !prevChecked);
+
+    // Set all values in permissionList based on the current state
+    const updatedPermissions = permissionList.map((permission) =>
+      permission.map(() => isChecked),
+    );
+
+    // Update the permissionList state
+    setPermissionList(updatedPermissions);
   };
 
   const handleParentChange = (parentIndex) => {
@@ -44,7 +62,7 @@ const ParentChildApp = () => {
     } else {
       const updatedPermissions = [...permissionList];
       updatedPermissions[parentIndex] = updatedPermissions[parentIndex].map(
-        (child) => !child
+        (child) => !child,
       );
       setPermissionList(updatedPermissions);
     }
@@ -58,17 +76,17 @@ const ParentChildApp = () => {
       updatedPermissions[parentIndex][childIndex] =
         !updatedPermissions[parentIndex][childIndex];
       setPermissionList(updatedPermissions);
-      if(ColumnList.some((col) => col.id === childIndex+1)){
-        ColumnList.forEach((col)=> {
-          if(col.id === childIndex+1){
-            col.isNull = true;
-          }else{
-            col.isNull = false;
-          }
-        })
-      }
+      // if(ColumnList.some((col) => col.id === childIndex+1)){
+      //   ColumnList.forEach((col)=> {
+      //     if(col.id === childIndex+1){
+      //       col.isNull = true;
+      //     }else{
+      //       col.isNull = false;
+      //     }
+      //   })
+      // }
       console.log(
-        "from handleChild function " + parentIndex + " " + childIndex
+        "from handleChild function " + parentIndex + " " + childIndex,
       );
     }
   };
@@ -90,7 +108,9 @@ const ParentChildApp = () => {
             <Checkbox
               indeterminate={
                 parentIndex === 0
-                  ? ColumnList.some((col) => col.isNull === true && col.id === childIndex+1)
+                  ? ColumnList.some(
+                      (col) => col.isNull === true && col.id === childIndex + 1,
+                    )
                   : null
               }
               checked={permissionList[parentIndex][childIndex]}
@@ -113,8 +133,8 @@ const ParentChildApp = () => {
             parentIndex === 0
               ? "parentRow"
               : parentIndex % 2 === 0
-              ? "Row_odd"
-              : "Row_even"
+                ? "Row_odd"
+                : "Row_even"
           }
         >
           <FormControlLabel
@@ -131,14 +151,15 @@ const ParentChildApp = () => {
               <Checkbox
                 checked={permissionList[parentIndex].every((child) => child)}
                 indeterminate={
-                  parentIndex === 0
+                  parentIndex === 0 && indeterminate
                     ? (!permissionList[parentIndex].every((child) => child) &&
                         permissionList[parentIndex].some((child) => child)) ||
                       permissionList.some((perm) => perm.some((child) => child))
-                    : !permissionList[parentIndex].every((child) => child) &&
+                    : !permissionList[parentIndex].every((child) => child)  &&
                       permissionList[parentIndex].some((child) => child)
                 }
                 onChange={() => handleParentChange(parentIndex)}
+                onClick={() => handleIndeterminateChange(parentIndex)}
               />
             }
           />
