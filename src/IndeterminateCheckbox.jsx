@@ -10,7 +10,6 @@ const ParentChildApp = () => {
   const [isChecked, setIsChecked] = useState(true);
   const [isChecked2, setIsChecked2] = useState(true);
   const [indeterminate, setIndeterminate] = useState(true);
-  const [columnNullChecker, setColumnNullChecker] = useState(false);
 
   const handleIndeterminateChange = (parentIndex) => {
     const updatedPermissions = [...permissionList];
@@ -58,7 +57,6 @@ const ParentChildApp = () => {
   };
 
   const handleParentChange = (parentIndex) => {
-    handleRowsNullChecker();
     if (parentIndex == 0) {
       handleCheckAll();
       setIndeterminate(!indeterminate);
@@ -73,10 +71,8 @@ const ParentChildApp = () => {
   };
 
   const handleChildChange = (parentIndex, childIndex) => {
-    handleRowsNullChecker();
     if (parentIndex == 0) {
       handleCheckColumnCheckbox(parentIndex, childIndex);
-      handleRowsNullChecker(parentIndex, childIndex);
     } else {
       const updatedPermissions = [...permissionList];
       updatedPermissions[parentIndex][childIndex] =
@@ -97,25 +93,6 @@ const ParentChildApp = () => {
     }
   };
 
-  const handleRowsNullChecker = () => {
-    for (let j = 0; j < initialPermissionList[0].length; j++) {
-      let hasTrue = false;
-      setColumnNullChecker(false);
-      for (let i = 0; i < initialPermissionList.length; i++) {
-        if (initialPermissionList[i][j] === true) {
-          hasTrue = true;
-          setColumnNullChecker(true);
-          break; // Exit the loop if a true value is found in the column
-        }
-      }
-
-      ColumnList.forEach((col) => {
-        if (col.id === j + 1) {
-          col.isNull = hasTrue;
-        }
-      });
-    }
-  };
 
   const children = (parentIndex) => (
     <Box
