@@ -100,10 +100,11 @@ const ParentChildApp = () => {
   const handleRowsNullChecker = () => {
     for (let j = 0; j < initialPermissionList[0].length; j++) {
       let hasTrue = false;
-
+      setColumnNullChecker(false);
       for (let i = 0; i < initialPermissionList.length; i++) {
         if (initialPermissionList[i][j] === true) {
           hasTrue = true;
+          setColumnNullChecker(true);
           break; // Exit the loop if a true value is found in the column
         }
       }
@@ -131,7 +132,11 @@ const ParentChildApp = () => {
           key={childIndex}
           control={
             <Checkbox
-              indeterminate={parentIndex === 0 && ColumnList[childIndex].isNull}
+              indeterminate={
+                parentIndex === 0 &&
+                !permissionList.every((row) => row[childIndex]) &&
+                permissionList.some((row) => row[childIndex])
+              }
               checked={permissionList[parentIndex][childIndex]}
               onChange={() => handleChildChange(parentIndex, childIndex)}
             />
